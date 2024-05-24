@@ -1,0 +1,4 @@
+# 02
+numpy==1.23.5
+sentencepiece==0.1.99
+transformers==4.33.2
