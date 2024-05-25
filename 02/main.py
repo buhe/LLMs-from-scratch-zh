@@ -60,25 +60,17 @@ class GPTDatasetV1(Dataset):
     
 if __name__=="__main__":
     vocab_size=64793
-    # tokenizer = ChatGLMTokenizer(vocab_file='../chatglm_tokenizer/tokenizer.model')
-    # print(tokenizer.encode("你好"))
+    output_dim = 256
+
+    token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
+
     with open('./data/wikipedia-cn-20230720-filtered.json','r',encoding='utf-8') as f:
         data=json.load(f)
-    # txt = data[0]['completion']
-    # print(tokenizer.encode(txt))
-    # print(tokenizer.encode(txt, add_special_tokens=False))
-    # doc_ids=[]
-    # for line in tqdm(data):
-    #     text=line['completion']
-    #     text_id=tokenizer.encode(text,add_special_tokens=False)
-    #     text_id.append(tokenizer.special_tokens['<eos>'])
-    #     if len(text_id)>5:
-    #         doc_ids+=text_id
-    # print(len(doc_ids))
-    dataloader = create_dataloader_v1(
-    data, batch_size=1, max_length=4, stride=1, shuffle=False
-    )
+    dataloader = create_dataloader_v1(data, batch_size=8, max_length=4, stride=4, shuffle=False)
 
     data_iter = iter(dataloader)
-    first_batch = next(data_iter)
-    print(first_batch)
+    inputs, targets = next(data_iter)
+    print("Inputs:\n", inputs)
+    print("\nTargets:\n", targets)
+    token_embeddings = token_embedding_layer(inputs)
+    print(token_embeddings.shape)
