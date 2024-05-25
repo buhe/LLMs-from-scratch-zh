@@ -74,3 +74,8 @@ if __name__=="__main__":
     print("\nTargets:\n", targets)
     token_embeddings = token_embedding_layer(inputs)
     print(token_embeddings.shape)
+    context_length = 4
+    pos_embedding_layer = torch.nn.Embedding(context_length, output_dim)
+    pos_embeddings = pos_embedding_layer(torch.arange(context_length))
+    input_embeddings = token_embeddings + pos_embeddings
+    print("Final Input Embeddings:\n", input_embeddings.shape)
