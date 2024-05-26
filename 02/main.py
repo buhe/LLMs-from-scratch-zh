@@ -62,8 +62,6 @@ if __name__=="__main__":
     vocab_size=64793
     output_dim = 256
 
-    token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
-
     with open('./data/wikipedia-cn-20230720-filtered.json','r',encoding='utf-8') as f:
         data=json.load(f)
     dataloader = create_dataloader_v1(data, batch_size=8, max_length=4, stride=4, shuffle=False)
@@ -72,6 +70,7 @@ if __name__=="__main__":
     inputs, targets = next(data_iter)
     print("Inputs:\n", inputs)
     print("\nTargets:\n", targets)
+    token_embedding_layer = torch.nn.Embedding(vocab_size, output_dim)
     token_embeddings = token_embedding_layer(inputs)
     print(token_embeddings.shape)
     context_length = 4
